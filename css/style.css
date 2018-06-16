@@ -1,0 +1,18 @@
+body {
+	font-family: roboto, helvetica, arial;
+}
+
+h1 {
+	font-weight: 700;
+	text-align: center;
+	color: #FFAA22;
+}
+
+p#output {
+	text-align: center;
+}
+
+.p5Canvas {
+	padding: 0 10px;
+	width: 100%
+}
