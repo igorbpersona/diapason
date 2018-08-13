@@ -24,29 +24,37 @@ var textOutput;
 var canvasWidth = window.innerWidth * 0.982;
 var canvasHeight = singleNoteBarHeight * 27;
 
-var singingTimeLine = {
-	x: 360,
-	w: 2,
-	h: canvasHeight,
-	color: '#444444',
-};
+//Instantiate singing line
+var singingLine = new SingingLine(
+		360,
+		0,
+		2,
+		canvasHeight,
+		'#444444'
+	);
 
-var voiceDot = {
-	radius: singleNoteBarHeight,
-	color: '#000000',
-	x: singingTimeLine.x + singingTimeLine.w / 2,
-	y: canvasHeight,
-	hittingNote: false
-}
+//Instantiate voice dot at the bottom
+var voiceDot = new VoiceDot(
+		singingLine.x + singingLine.w / 2,
+		canvasHeight,
+		singleNoteBarHeight,
+		'#333333',
+		singingLine.x
+	);
 
-var voiceHistory = [];
+//Instantiate notesBar on the left of the screen
+var notesBar = new NotesBar(
+		singleNoteBarHeight,
+		musicNotes
+	);
 
 var voiceNotes = {
 	notes: [],
 	speed: 1
 };
 
-function setup() {
+function setup()
+{
 	createCanvas(canvasWidth, canvasHeight);
 
 	mic = new p5.AudioIn();
@@ -60,14 +68,14 @@ function setup() {
 	loadVoiceNotes();
 }
 
-function draw() {
+function draw()
+{
 	background(199,199,199);
-
-	drawSingingTimeLine();
+	singingLine.draw();
 	drawVoiceNotes();
-	drawNotesBar();
-	drawVoiceDot();
-	drawVoiceHistory();
+	notesBar.draw(canvasHeight); //TODO: Put this into html so it can be redered just one time
+	voiceDot.draw(fft.analyze());
+	voiceDot.drawVoiceHistory(singingLine.x);
 }
 
 function loadVoiceNotes() {
@@ -81,9 +89,6 @@ function loadVoiceNotes() {
 
 		voiceNotes.notes[i] = voiceNote;
 	}
-
-	console.log("loadedVoiceNotes:");
-	console.log(voiceNotes);
 }
 
 function drawNotesBar() {
@@ -99,59 +104,6 @@ function drawNotesBar() {
 	}
 }
 
-
-function drawSingingTimeLine() {
-	fill(singingTimeLine.color);
-	noStroke();
-	rect(singingTimeLine.x, 0, singingTimeLine.w, singingTimeLine.h);
-}
-
-function drawVoiceHistory() {
-	noFill();
-	stroke(255, 90, 10);
-	beginShape();
-	for (var i = 0; i < voiceHistory.length; i++) {
-		vertex(singingTimeLine.x - i, voiceHistory[i]);
-	}
-	endShape();
-}
-
-function drawVoiceDot() {
-	var vol = mic.getLevel();
-	voiceDot.y = map(vol, -0.005, 1, canvasHeight, 0);
-
-	var spectrum = fft.analyze();
-	var text = textOutput.innerHTML;
-
-	var biggest = spectrum[0];
-	var biggestIndex = 0;
-	for (var i = 0; i < spectrum.length; i++) {
-		if (spectrum[i] > biggest) {
-			biggest = spectrum[i];
-			biggestIndex = i;
-		}
-		// text += spectrum[i];
-	}
-
-	textOutput.innerHTML = "["+biggestIndex+"]: " + biggest + "<br>";
-
-	voiceDot.y = map(biggestIndex, 0, 50, canvasHeight, 0);
-
-
-	if (voiceDot.hittingNote) {
-		voiceDot.color = '#FFFF00';
-	} else {
-		voiceDot.color = '#000000';
-	}
-
-	fill(voiceDot.color);
-	stroke(255);
-	ellipse(voiceDot.x, voiceDot.y, voiceDot.radius);
-	voiceHistory.unshift(voiceDot.y);
-	if (voiceHistory.length >= singingTimeLine.x) {
-		voiceHistory.pop();
-	}
-}
 
 function drawVoiceNote(i) {
 	if (voiceNotes.notes[i].x < canvasWidth) {
@@ -171,7 +123,7 @@ function drawVoiceNote(i) {
 			rect(voiceNotes.notes[i].x, voiceNotes.notes[i].y, voiceNotes.notes[i].ttl, singleNoteBarHeight);
 			voiceNotes.notes[i].x -= voiceNotes.speed;
 
-			if (voiceNotes.notes[i].x <= singingTimeLine.x) {
+			if (voiceNotes.notes[i].x <= singingLine.x) {
 				voiceNotes.notes[i].sing = true;
 				hitNote(i);
 			}
@@ -204,4 +156,3 @@ function hitNote(i) {
 		voiceDot.hittingNote = false;
 	}
 }
-
