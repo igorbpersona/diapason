@@ -75,6 +75,7 @@ function draw()
 	drawVoiceNotes();
 	notesBar.draw(canvasHeight); //TODO: Put this into html so it can be redered just one time
 	voiceDot.draw(fft.analyze());
+	document.getElementById("out").html(fft.analyze().getEnergy());
 	voiceDot.drawVoiceHistory(singingLine.x);
 }
 
