@@ -5,15 +5,17 @@ function NotesBar(noteHeight, notes)
 
 	this.draw = function(canvasHeight)
 	{
+		var j = 0;
 		for (var i = 0; i <= canvasHeight; i += this.noteHeight) {
-			fill(50, 110, map(i, 0, canvasHeight, 0, 255));
-			stroke(10, 10, 10);
+			fill(PITCH_COLORS[j % PITCH_COLORS.length]);
+			noStroke();
 			rect(0, i, 28, this.noteHeight);
 
-			textSize(16);
-			fill(255, 255, 255);
+			textSize(FONT_SIZE);
+			fill("#FFFFFF");
 			noStroke();
-			text(this.notes[(i / this.noteHeight) % this.notes.length], 2, i - 2);
+			text(this.notes[j % this.notes.length], 2, this.noteHeight + i - 4);
+			j++;
 		}
 	}
 }

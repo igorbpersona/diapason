@@ -1,11 +1,18 @@
+/*
+	::COLOR PALETTE::
+	ddd78d-dcbf85-8b635c-60594d-93a29b
+*/
 body {
 	font-family: roboto, helvetica, arial;
+	padding: 0;
+	margin: 0;
+	background-color: #F0F0F0;
 }
 
 h1 {
 	font-weight: 700;
 	text-align: center;
-	color: #FFAA22;
+	color: #60594d;
 }
 
 p#output {
@@ -15,4 +22,74 @@ p#output {
 .p5Canvas {
 	padding: 0 10px;
 	width: 100%
+}
+
+#btn-toggle-loop {
+	width: 140px;
+	line-height: 30px;
+	text-align: center;
+	background-color: #60594d;
+	border: none;
+	color: #FFF;
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	cursor: pointer;
+}
+
+#btn-toggle-loop:hover {
+	background-color: #50493d;
+}
+
+
+/* INDEX */
+nav ul {
+	padding: 0;
+	margin: 0;
+}
+.menu-item {
+	list-style: none;
+	text-align: center;
+	cursor: pointer;
+	padding: 16px 0;
+}
+.menu-item p {
+	margin: 0;
+}
+#li-play {
+	background-color: #ddd78d;
+}
+#li-train {
+	background-color: #dcbf85;
+}
+#li-howto {
+	background-color: #ddd78d;
+}
+#li-about {
+	background-color: #dcbf85;
+	margin-bottom: 20px;
+}
+.menu-content {
+	display: none;
+}
+.menu-label {
+	font-size: 34px;
+	color: #FFF;
+	font-weight: bold;
+}
+footer {
+	position: relative;
+	width: 100%;
+	height: 30px;
+}
+footer a{
+	position: absolute;
+	width: 100%;
+	bottom: 10px;
+	text-align: center;
+}
+
+ul.ul-options li {
+	display: inline-block;
+	text-decoration: none;
 }

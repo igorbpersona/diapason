@@ -1,3 +1,6 @@
+const COLOR_HITTING_NOTE = "#F0F010";
+const COLOR_MISSING_NOTE = "#202020";
+
 function VoiceDot(x, y, r, color, maxPySize)
 {
 	//"constructor"
@@ -11,30 +14,16 @@ function VoiceDot(x, y, r, color, maxPySize)
 	this.hittingNote = false; //flag that tells if dot is hitting a note
 
 	//Draws the voiceDot in the canvas according to the microphone fft spectrum passed
-	this.draw = function(spectrum)
+	this.draw = function(freq)
 	{
-		//console.log("passed spectrum: " + spectrum[0]);
-		//find which frequency  are used the most
-		var biggest = spectrum[0];
-		var biggestIndex = 0;
-		for (var i = 0; i < spectrum.length; i++) {
-			if (spectrum[i] > biggest) {
-				biggest = spectrum[i];
-				biggestIndex = i;
-			}
-		}
-
-		//debug
-		textOutput.innerHTML = "["+biggestIndex+"]: " + biggest + "<br>";
-
 		//map the frequency to a position on the y axis
-		this.y = map(biggestIndex, 0, 100, 540, 10);
+		this.y = map(freq, 0, 880, 540, 10);
 
 		//change dot color
 		if (this.hittingNote) {
-			this.color = '#FFFF00';
+			this.color = COLOR_HITTING_NOTE;
 		} else {
-			this.color = '#000000';
+			this.color = COLOR_MISSING_NOTE;
 		}
 
 		//draw dot
@@ -48,7 +37,7 @@ function VoiceDot(x, y, r, color, maxPySize)
 		if (this.py.length >= this.maxPySize) {
 			this.py.pop();
 		}
-	}
+	};
 
 	this.drawVoiceHistory = function(x)
 	{
@@ -59,7 +48,7 @@ function VoiceDot(x, y, r, color, maxPySize)
 			vertex(x - i, this.py[i]);
 		}
 		endShape();
-	}
+	};
 
 	//Compare the note of the voiceDot with the note given
 	/*this.hittingNote = function(note)

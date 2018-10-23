@@ -4,19 +4,9 @@
     
     <meta charset="utf-8">
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-    <style> body {padding: 0; margin: 0;} </style>
-
-    <script src="libs/p5/p5.min.js"></script>
-    <script src="libs/p5/addons/p5.dom.min.js"></script>
-    <script src="libs/p5/addons/p5.sound.min.js"></script>
-
-    <script src="app/models/NotesBar.js"></script>
-    <script src="app/models/SingingLine.js"></script>
-    <script src="app/models/VoiceDot.js"></script>
-    <script src="diapason.js"></script>
-
     <link rel="stylesheet" href="css/style.css">
-    
+    <script src="libs/jQuery/jQuery-v3.3.1.js"></script>
+
     <title>Diapason!</title>
 
   </head>
@@ -25,11 +15,59 @@
     <header>
       <h1>Diapason!</h1>
     </header>
+    
+    <main>
+      <nav>
+        <ul>
+          <li class="menu-item" id="li-play">
+            <p class="menu-label">PLAY</p>
+            <div class="menu-content closed">
+              <p class="menu-description">Which song do you wanna play?</p>
+              <ul class="ul-options">
+                <li><a href=""></a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="menu-item" id="li-train">
+            <p class="menu-label">TRAIN</p>
+            <div class="menu-content closed">
+              <p class="menu-description">Which scale do you wanna play?</p>
+              <ul class="ul-options">
+                <li><a href="app/views/train.html?challange_id=1">Mariana</a></li>
+                <li><a href="app/views/train.html?challange_id=2">Estamos Errados</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="menu-item" id="li-howto">
+            <p class="menu-label">HOW TO</p>
+            <div class="menu-content closed">
+              <p class="menu-description">Sing it!</p>
+            </div>
+          </li>
+          <li class="menu-item" id="li-about">
+            <p class="menu-label">ABOUT</p>
+            <div class="menu-content closed">
+              <p class="menu-description">Diapason! is a bla bla</p>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </main>
 
-    <p id="output"></p>
-    <p id="out"></p>
-
-    <!-- CANVAS -->
-
+    <footer>
+      <a href="https://www.github.com/igorbpersona/diapason">GitHub</a>
+    </footer>
   </body>
+
+  <script type="text/javascript">
+      
+  jQuery(document).ready(function($) {
+    $(".menu-item").click(function() {
+      $(".opened").hide(300);
+
+      $(this).find(".menu-content").show(300).addClass("opened").removeClass("closed");
+    });
+  });
+
+  </script>
 </html>
