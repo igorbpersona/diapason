@@ -1,45 +1,19 @@
-function VoiceNotes(challange, speed, xToSing)
+function VoiceNotes(xToSing, sheet)
 {
-	//Main function to return notes array from scale given
-	this.loadScale = function(challange)
-	{
-		switch(challange) {
-			case SCALE_MARIANA:
-				return this.marianaScale();
-			case SCALE_ESTAMOS_ERRADOS:
-				return this.estamosErradosScale();
-			default:
-				return [];
-		}
-	};
-
-	this.loadNotes = function(challangeNotes, octave) {
+	this.loadNotes = function() {
 		let notes = [];
-		for (let i = 0; i < challangeNotes.length; i++) {
-			notes[i] = new VoiceNote(challangeNotes[i], octave, this.xToSing);
+		for (let i = 0; i < this.sheet.length; i++) {
+			notes[i] = new VoiceNote(this.sheet[i], this.xToSing, this.sheet[this.sheet.length - 1][SHEET_INDEX_START]);
 		}
 		return notes;
 	};
 
-	// returns array notes of mariana scale
-	this.marianaScale = function()
-	{
-		let notes = [C, D, E, F, G, G_SUS, A, B];
-		return this.loadNotes(notes, 4);
-	};
 
-	// returns array notes of estamos errados scale
-	this.estamosErradosScale = function()
-	{
-		let notes = [C, D, E, F_SUS, G, A, B];
-		return this.loadNotes(notes, 4);
-	};
-
-	this.draw = function()
+	this.draw = function(elapsedTime)
 	{
 		for (let i = 0; i < this.notes.length; i++) {
 			//draw note
-			this.notes[i].draw(this.speed);
+			this.notes[i].draw(elapsedTime);
 		}
 
 		//check if some note can be removed from array
@@ -48,12 +22,11 @@ function VoiceNotes(challange, speed, xToSing)
 		}
 
 		//returns true if there are notes to pass still, false otherwise
-		return true;// this.notes.length !== 0;
+		return true;// TODO: return (this.notes.length !== 0);
 
 	};
 
-
-	this.notes = this.loadScale(challange); //array of notes
-	this.speed = speed; //single note height
 	this.xToSing = xToSing;
+    this.sheet = sheet;
+    this.notes = this.loadNotes(); //array of notes
 }

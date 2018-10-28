@@ -13,9 +13,9 @@ var canvas = null;
 
 let t0 = 0;
 let t1 = 0;
-let timeTaken = 0;
-let sec = 0;
-var sheetManager = null;
+let elapsedTime = 0;
+let totalTimeElapsed = 0;
+let sec = -1;
 
 //Main function before start to drawing, loads and set up variables
 function setup()
@@ -32,25 +32,31 @@ function setup()
 
 	diapason = new Diapason(challange_id, SPEED, SMOOTHNESS_LEVEL);
 	diapason.setUp();
-
-	sheetManager = new MusicSheetManager("ID");
-	sheetManager.loadChallange();
 }
 
 function draw()
 {
 	background("#93a29b");
+
     t1 = Date.now();
-    timeTaken += t1 - t0;
+    elapsedTime += t1 - t0;
+    //console.log(totalTimeElapsed);
     t0 = Date.now();
 
-	if (timeTaken >= 1000) {
+	if (elapsedTime >= 1000) {
         sec++;
-        console.log("Tempo: " + timeTaken + " Total: " + sec + "s");
-        timeTaken = 0;
+        textOutput.innerHTML = "Elapsed time: " + sec + "s";
+        elapsedTime = 0;
     }
 
-    keepChallange = diapason.iterate();
+    if (elapsedTime > 30) {
+        totalTimeElapsed += ITERATION_MILISECONDS;
+    } else {
+        totalTimeElapsed += elapsedTime;
+
+    }
+
+    keepChallange = diapason.iterate(totalTimeElapsed);
 
     if (!keepChallange) {
 		window.location.href = "/resume.html?challange_id=" + diapason.challange + "&points=" + diapason.points;

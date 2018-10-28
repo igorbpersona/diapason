@@ -37,10 +37,11 @@ function Diapason(challangeId, speed, smoothnessLevel)
             MUSIC_NOTES_ARRAY
         );
 
-        this.voiceNotes = new VoiceNotes(this.challange, this.speed, this.singingLine.x);
+        this.sheetManager = new MusicSheetManager(challangeId, this.singingLine.x);
+        this.sheetManager.loadChallange();
     };
 
-    this.iterate = function()
+    this.iterate = function(elapsedTime)
     {
         // array of float values from -1 to 1
         let timeDomain = this.fft.waveform(1024, 'float32'); //computes amplitude values along the time domain. The array indices correspond to samples across a brief moment in time. Each value represents amplitude of the waveform at that sample of time.
@@ -51,12 +52,11 @@ function Diapason(challangeId, speed, smoothnessLevel)
 
         if (this.iteration === this.smoothnessLevel) {
             this.currFreq = smoothFrequency(this.freqArray);
-            //document.getElementById("output").innerHTML = currentFreq;
             this.iteration = -1;
         }
 
         this.singingLine.draw();
-        let keepGoing = this.voiceNotes.draw();
+        let keepGoing = this.sheetManager.draw(elapsedTime);
         if (!keepGoing) {
             return false;
         }
@@ -87,9 +87,9 @@ function Diapason(challangeId, speed, smoothnessLevel)
     //Instantiate voice dot at the bottom
     this.voiceDot = null;
 
-    //Instantiate notesBar on the left of the screen
+    //Instantiate notes bar on the left of the screen
     this.notesBar = null;
 
-    //Instantiate voice notes
-    this.voiceNotes = null;
+    //Instantiate sheet manager
+    this.sheetManager = null;
 }
