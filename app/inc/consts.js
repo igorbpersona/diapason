@@ -28,13 +28,14 @@ const A_SUS = 1;
 const B 	= 0;
 
 
+//height of a single note on notesBar
 const SINGLE_NOTE_BAR_HEIGHT = 20;
+
+//canvas quantity of notes to be displayed in the notesBar
 const NUM_OF_NOTES_TO_SHOW = 12;
 
 /* How many values will be used to find the mode */
 const SMOOTHNESS_LEVEL = 5;
-
-const SPEED = 1;
 
 
 // Colors for pitches order by MUSIC_NOTES_ARRAY
@@ -56,12 +57,83 @@ const PITCH_COLORS = [
 const SCALE_MARIANA = 1;
 const SCALE_ESTAMOS_ERRADOS = 2;
 
-
 const FONT_SIZE = 13;
 
+//aproximation of number of miliseconds passed in an iteration of the Diapason
 const ITERATION_MILISECONDS = 17;
 
+//indexes for notes sheet arrays
 const SHEET_INDEX_START = 0;
 const SHEET_INDEX_END = 1;
 const SHEET_INDEX_NOTE = 2;
 const SHEET_INDEX_OCTAVE = 3;
+
+//voice dot
+const COLOR_HITTING_NOTE = "#F0F010";
+const COLOR_MISSING_NOTE = "#202020";
+
+//Matrix octaves frequency x note
+/*
+*  octave:     |  0    | 1    | 2    | 3    4  ....
+*  note:     B |  Fb0  | FB1  |      |
+*           A# |  FA#0 | FA#1 |      |
+*            A |  FA0  | FA1  |      |
+*          ...
+*
+* */
+const FREQUENCY_NOTES_MAP = [
+  [30.87, 61.74, 123.47, 246.94, 493.88, 987.77], // B
+  [29.14, 58.27, 116.54, 233.08, 466.16, 932.33], // A#
+  [27.50, 55.00, 110.00, 220.00, 440.00, 880.00], // A
+  [25.96, 51.91, 103.83, 207.65, 415.30, 830.61], // G#
+  [24.50, 49.00, 98.00, 196.00, 392.00, 783.99], // G
+  [23.12, 46.25, 92.50, 185.00, 369.99, 739.99], // F#
+  [21.83, 43.65, 87.31, 174.61, 349.23, 698.46], // F
+  [20.60, 41.20, 82.41, 164.81, 329.63, 659.25], // E
+  [19.45, 38.89, 77.78, 155.56, 311.13, 622.25], // D#
+  [18.35, 36.71, 73.42, 146.83, 293.66, 587.33], // D
+  [17.32, 34.65, 69.30, 138.59, 277.18, 554.37], // C#
+  [16.35, 32.70, 65.41, 130.81, 261.63, 523.25], // C
+];
+
+
+
+/*
+TODO: map all frequencies !
+1046.50
+1108.73
+1174.66
+1244.51
+1318.51
+1396.91
+1479.98
+1567.98
+1661.22
+1760.00
+1864.66
+1975.53
+2093.00
+2217.46
+2349.32
+2489.02
+2637.02
+2793.83
+2959.96
+3135.96
+3322.44
+3520.00
+3729.31
+3951.07
+4186.01
+4434.92
+4698.63
+4978.03
+5274.04
+5587.65
+5919.91
+6271.93
+6644.88
+7040.00
+7458.62
+7902.13
+*/

@@ -30,8 +30,12 @@ function setup()
 	let url = new URL(window.location.href);
 	let challange_id = parseInt(url.searchParams.get("challange_id"));
 
-	diapason = new Diapason(challange_id, SPEED, SMOOTHNESS_LEVEL);
+	diapason = new Diapason(challange_id, SMOOTHNESS_LEVEL);
 	diapason.setUp();
+
+	//Start Diapason paused
+    noLoop();
+    isLooping = false;
 }
 
 function draw()
@@ -40,7 +44,6 @@ function draw()
 
     t1 = Date.now();
     elapsedTime += t1 - t0;
-    //console.log(totalTimeElapsed);
     t0 = Date.now();
 
 	if (elapsedTime >= 1000) {

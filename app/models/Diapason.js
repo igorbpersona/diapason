@@ -1,4 +1,4 @@
-function Diapason(challangeId, speed, smoothnessLevel)
+function Diapason(challangeId, smoothnessLevel)
 {
     this.setUp = function()
     {
@@ -71,7 +71,6 @@ function Diapason(challangeId, speed, smoothnessLevel)
     this.challange = challangeId; //Challange id
     this.points = 0; //points earned in challange
     this.iteration = 0;
-    this.speed = speed;
     this.smoothnessLevel = smoothnessLevel;
 
     this.mic = null;

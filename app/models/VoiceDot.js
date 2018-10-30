@@ -1,6 +1,3 @@
-const COLOR_HITTING_NOTE = "#F0F010";
-const COLOR_MISSING_NOTE = "#202020";
-
 function VoiceDot(x, y, r, color, maxPySize)
 {
 	//"constructor"
@@ -17,7 +14,7 @@ function VoiceDot(x, y, r, color, maxPySize)
 	this.draw = function(freq)
 	{
 		//map the frequency to a position on the y axis
-		this.y = map(freq, 0, 880, 540, 10);
+		this.y = map(freq, 0, 880, height, 0);
 
 		//change dot color
 		if (this.hittingNote) {

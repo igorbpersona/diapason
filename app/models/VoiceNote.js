@@ -17,16 +17,21 @@ function VoiceNote(noteData, xToSing, challangeTotalTime)
 			textSize(FONT_SIZE);
 			text(MUSIC_NOTES_ARRAY[this.note], this.x + 4, this.y + FONT_SIZE + 2);
 
-			if ((this.x <= this.xToSing) && (this.x + this.tts) >= this.xToSing) {
+			if (this.isSingingTime()) {
 				this.sing = true;
 				console.log(this.noteText + " " + elapsedTime);
-				//this.hitNote();
 			}
 			
 		}
 
 		//updates note position
         this.x--;
+	};
+
+	//Check if it's time for the note to be sung
+	this.isSingingTime = function()
+	{
+		return ((this.x <= this.xToSing) && (this.x + this.tts) >= this.xToSing);
 	};
 
 	//check if note has already completely passed by the canvas
@@ -37,7 +42,7 @@ function VoiceNote(noteData, xToSing, challangeTotalTime)
 	this.getStarterXAxis = function()
 	{
 		let conversion = (this.challangeTotalTime / ITERATION_MILISECONDS);
-		return map(this.start, 0, this.challangeTotalTime, 0, conversion);
+		return map(this.start, 0, this.challangeTotalTime, this.xToSing, conversion);
 	};
 
     this.getYAxis = function()
@@ -82,9 +87,9 @@ function VoiceNote(noteData, xToSing, challangeTotalTime)
     this.start = noteData[SHEET_INDEX_START];
     this.end = noteData[SHEET_INDEX_END];
     this.challangeTotalTime = challangeTotalTime;
+    this.xToSing = xToSing; // x axis moment to sing
     this.x = this.getStarterXAxis();
     this.y = this.getYAxis();
     this.tts = this.getNoteWidth(); //stands for Time To Sing, it's the Note width TODO: calculate this based on start and end
-    this.xToSing = xToSing; // x axis moment to sing
     this.sing = false; //flag to know if note needs to be singed now
 }

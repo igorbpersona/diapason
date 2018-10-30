@@ -56,17 +56,13 @@ nav ul {
 .menu-item p {
 	margin: 0;
 }
-#li-play {
+ul#diapason-initial-menu li:nth-child(odd) {
 	background-color: #ddd78d;
 }
-#li-train {
+ul#diapason-initial-menu li:nth-child(even) {
 	background-color: #dcbf85;
-}
-#li-howto {
-	background-color: #ddd78d;
 }
 #li-about {
-	background-color: #dcbf85;
 	margin-bottom: 20px;
 }
 .menu-content {
