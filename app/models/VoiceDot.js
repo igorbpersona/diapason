@@ -14,7 +14,8 @@ function VoiceDot(x, y, r, color, maxPySize)
 	this.draw = function(freq)
 	{
 		//map the frequency to a position on the y axis
-		this.y = map(freq, 0, 880, height, 0);
+		let approximation = this.getNoteApproximation(freq);
+		this.y = map(freq, 1, 1000, height, 0);
 
 		//change dot color
 		if (this.hittingNote) {
@@ -45,6 +46,32 @@ function VoiceDot(x, y, r, color, maxPySize)
 			vertex(x - i, this.py[i]);
 		}
 		endShape();
+	};
+
+	this.getNoteApproximation = function(freq)
+	{
+		let octave = 0;
+		for (let i = 0; i < FREQUENCY_NOTES_MAP[C].length; i++) {
+            if (freq > FREQUENCY_NOTES_MAP[C][i]) {
+                octave++;
+            } else if (freq < FREQUENCY_NOTES_MAP[C][i]) {
+            	if (i !== 0) {
+                    octave--;
+            		break;
+				}
+			} else {
+            	return [C, i];
+			}
+        }
+
+        for (let i = MUSIC_NOTES_ARRAY.length - 2; i >= 0; i--) {
+			if (freq <= FREQUENCY_NOTES_MAP[i][octave]) {
+				//returns a note, an octave and the difference between the frequency and the closest note
+                return [i, octave];
+            }
+        }
+
+        return [C, octave + 1];
 	};
 
 	//Compare the note of the voiceDot with the note given

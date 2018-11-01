@@ -1,4 +1,4 @@
-function VoiceNote(noteData, xToSing, challangeTotalTime)
+function VoiceNote(noteData, xToSing, challengeTotalTime)
 {
 	this.draw = function(elapsedTime)
 	{
@@ -41,8 +41,8 @@ function VoiceNote(noteData, xToSing, challangeTotalTime)
 
 	this.getStarterXAxis = function()
 	{
-		let conversion = (this.challangeTotalTime / ITERATION_MILISECONDS);
-		return map(this.start, 0, this.challangeTotalTime, this.xToSing, conversion);
+		let conversion = (this.challengeTotalTime / ITERATION_MILISECONDS);
+		return map(this.start, 0, this.challengeTotalTime, this.xToSing, conversion);
 	};
 
     this.getYAxis = function()
@@ -86,7 +86,7 @@ function VoiceNote(noteData, xToSing, challangeTotalTime)
     this.octave = noteData[SHEET_INDEX_OCTAVE];
     this.start = noteData[SHEET_INDEX_START];
     this.end = noteData[SHEET_INDEX_END];
-    this.challangeTotalTime = challangeTotalTime;
+    this.challengeTotalTime = challengeTotalTime;
     this.xToSing = xToSing; // x axis moment to sing
     this.x = this.getStarterXAxis();
     this.y = this.getYAxis();

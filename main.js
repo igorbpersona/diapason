@@ -4,9 +4,9 @@ var isLooping = true;
 var textOutput;
 
 var canvasWidth = window.innerWidth * 0.982;
-var canvasHeight = SINGLE_NOTE_BAR_HEIGHT * NUM_OF_NOTES_TO_SHOW;
+var canvasHeight = 0;
 
-var keepChallange = true;
+var keepChallenge = true;
 var diapason = null;
 
 var canvas = null;
@@ -20,18 +20,20 @@ let sec = -1;
 //Main function before start to drawing, loads and set up variables
 function setup()
 {
-	//Set up canvas
-	canvas = createCanvas(canvasWidth, canvasHeight);
-
-	//set up text output
+    //set up text output
 	textOutput = document.getElementById('output');
 
 	//load and set up scale (voice notes)
 	let url = new URL(window.location.href);
-	let challange_id = parseInt(url.searchParams.get("challange_id"));
+	let challenge_id = parseInt(url.searchParams.get("challenge_id"));
 
-	diapason = new Diapason(challange_id, SMOOTHNESS_LEVEL);
+	diapason = new Diapason(challenge_id, SMOOTHNESS_LEVEL);
 	diapason.setUp();
+
+	canvasHeight = diapason.getCanvasHeight();
+
+    //Set up canvas
+    canvas = createCanvas(canvasWidth, canvasHeight);
 
 	//Start Diapason paused
     noLoop();
@@ -59,10 +61,10 @@ function draw()
 
     }
 
-    keepChallange = diapason.iterate(totalTimeElapsed);
+    keepChallenge = diapason.iterate(totalTimeElapsed);
 
-    if (!keepChallange) {
-		window.location.href = "/resume.html?challange_id=" + diapason.challange + "&points=" + diapason.points;
+    if (!keepChallenge) {
+		window.location.href = "/resume.html?challenge_id=" + diapason.challenge + "&points=" + diapason.points;
 	}
 }
 

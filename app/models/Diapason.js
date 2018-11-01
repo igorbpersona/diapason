@@ -1,4 +1,4 @@
-function Diapason(challangeId, smoothnessLevel)
+function Diapason(challengeId, smoothnessLevel)
 {
     this.setUp = function()
     {
@@ -13,12 +13,23 @@ function Diapason(challangeId, smoothnessLevel)
         this.fft = new p5.FFT();
         this.fft.setInput(this.lowPass);
 
+
+        this.sheetManager = new MusicSheetManager(challengeId, SINGING_LINE_X);
+        this.sheetManager.loadChallenge();
+
+        //set up notes bar
+        this.notesBar = new NotesBar(
+            SINGLE_NOTE_BAR_HEIGHT,
+            MUSIC_NOTES_ARRAY,
+            this.sheetManager.octaves
+        );
+
         //set up singing line
         this.singingLine = new SingingLine(
-            360,
-            0,
-            2,
-            height,
+            SINGING_LINE_X,
+            SINGING_LINE_Y,
+            SINGING_LINE_W,
+            this.getCanvasHeight(),
             '#444444'
         );
 
@@ -30,15 +41,6 @@ function Diapason(challangeId, smoothnessLevel)
             '#333333',
             this.singingLine.x
         );
-
-        //set up notes bar
-        this.notesBar = new NotesBar(
-            SINGLE_NOTE_BAR_HEIGHT,
-            MUSIC_NOTES_ARRAY
-        );
-
-        this.sheetManager = new MusicSheetManager(challangeId, this.singingLine.x);
-        this.sheetManager.loadChallange();
     };
 
     this.iterate = function(elapsedTime)
@@ -68,8 +70,16 @@ function Diapason(challangeId, smoothnessLevel)
         return true;
     };
 
-    this.challange = challangeId; //Challange id
-    this.points = 0; //points earned in challange
+    this.getCanvasHeight = function()
+    {
+        if (this.sheetManager.octaves[1] == null) {
+            return SINGLE_NOTE_BAR_HEIGHT * MUSIC_NOTES_ARRAY.length;
+        }
+        return SINGLE_NOTE_BAR_HEIGHT * MUSIC_NOTES_ARRAY.length * 2;
+    };
+
+    this.challenge = challengeId; //Challenge id
+    this.points = 0; //points earned in challenge
     this.iteration = 0;
     this.smoothnessLevel = smoothnessLevel;
 

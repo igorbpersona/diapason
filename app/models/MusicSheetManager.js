@@ -1,9 +1,9 @@
-function MusicSheetManager(challangeId, xToSing)
+function MusicSheetManager(challengeId, xToSing)
 {
     //SHEET FORMAT: [start, end, note, octave]
-    this.loadChallange = function()
+    this.loadChallenge = function()
     {
-        //TODO: get challange on db
+        //TODO: get challenge on db
         let text = "{" +
             "  \"name\": \"Mariana\"," +
             "  \"type\": \"scale\"," +
@@ -15,7 +15,9 @@ function MusicSheetManager(challangeId, xToSing)
             "    [19000, 21000, \"G\", 3]," +
             "    [23000, 25000, \"G#\", 3]," +
             "    [27000, 29000, \"A\", 3]," +
-            "    [31000, 33000, \"B\", 3]," +
+            "    [30000, 32000, \"B\", 3]," +
+            "    [33000, 33600, \"C\", 4]," +
+            "    [34000, 34600, \"B\", 3]," +
             "    [35000, 37000, \"A\", 3]," +
             "    [39000, 41000, \"G#\", 3]," +
             "    [43000, 45000, \"G\", 3]," +
@@ -31,6 +33,7 @@ function MusicSheetManager(challangeId, xToSing)
         this.name = jsonSheet.name;
         this.type = jsonSheet.type;
         this.sheet = jsonSheet.sheet;
+        this.octaves = this.getOctaves();
     };
 
     this.draw = function(elapsedTime)
@@ -38,10 +41,28 @@ function MusicSheetManager(challangeId, xToSing)
         return this.voiceNotes.draw(elapsedTime);
     };
 
-    this.challangeId = challangeId;
+    //returns a 2 position array with the octaves ordered used in the challenge
+    this.getOctaves = function()
+    {
+        let octave = this.sheet[0][SHEET_INDEX_OCTAVE];
+
+        for (let i = 1; i < this.sheet.length; i++) {
+            if (this.sheet[i][SHEET_INDEX_OCTAVE] < octave) {
+                return [this.sheet[i][SHEET_INDEX_OCTAVE], octave];
+
+            } else if (this.sheet[i][SHEET_INDEX_OCTAVE] > octave) {
+                return [octave, this.sheet[i][SHEET_INDEX_OCTAVE]];
+            }
+        }
+
+        return [octave, null];
+    };
+
+    this.challengeId = challengeId;
     this.name = null;
     this.type = null;
     this.sheet = null;
-    this.challange = this.loadChallange(this.challangeId);
+    this.octaves = null;
+    this.challenge = this.loadChallenge(this.challengeId);
     this.voiceNotes = new VoiceNotes(xToSing, this.sheet);
 }
