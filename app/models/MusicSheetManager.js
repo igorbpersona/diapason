@@ -64,5 +64,5 @@ function MusicSheetManager(challengeId, xToSing)
     this.sheet = null;
     this.octaves = null;
     this.challenge = this.loadChallenge(this.challengeId);
-    this.voiceNotes = new VoiceNotes(xToSing, this.sheet);
+    this.voiceNotes = new VoiceNotes(xToSing, this.sheet, this.octaves);
 }

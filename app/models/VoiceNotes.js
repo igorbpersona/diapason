@@ -1,9 +1,19 @@
-function VoiceNotes(xToSing, sheet)
+function VoiceNotes(xToSing, sheet, octaves)
 {
 	this.loadNotes = function() {
 		let notes = [];
 		for (let i = 0; i < this.sheet.length; i++) {
-			notes[i] = new VoiceNote(this.sheet[i], this.xToSing, this.sheet[this.sheet.length - 1][SHEET_INDEX_START]);
+			let octaveIndex = 0;
+			if (this.sheet[i][SHEET_INDEX_OCTAVE] === octaves[1]) {
+                octaveIndex = 1;
+			}
+
+			notes[i] = new VoiceNote(
+				this.sheet[i],
+				this.xToSing,
+				this.sheet[this.sheet.length - 1][SHEET_INDEX_START],
+				octaveIndex
+			);
 		}
 		return notes;
 	};
@@ -29,4 +39,5 @@ function VoiceNotes(xToSing, sheet)
 	this.xToSing = xToSing;
     this.sheet = sheet;
     this.notes = this.loadNotes(); //array of notes
+	this.octaves = octaves;
 }

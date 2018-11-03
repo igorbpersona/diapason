@@ -15,7 +15,7 @@ function VoiceDot(x, y, r, color, maxPySize)
 	{
 		//map the frequency to a position on the y axis
 		let approximation = this.getNoteApproximation(freq);
-		this.y = map(freq, 1, 1000, height, 0);
+		this.y = map(freq, 1, 1000, height, -10);
 
 		//change dot color
 		if (this.hittingNote) {

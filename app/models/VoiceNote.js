@@ -1,4 +1,4 @@
-function VoiceNote(noteData, xToSing, challengeTotalTime)
+function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 {
 	this.draw = function(elapsedTime)
 	{
@@ -15,7 +15,7 @@ function VoiceNote(noteData, xToSing, challengeTotalTime)
 			fill("#FFFFFF");
 			noStroke();
 			textSize(FONT_SIZE);
-			text(MUSIC_NOTES_ARRAY[this.note], this.x + 4, this.y + FONT_SIZE + 2);
+			text(MUSIC_NOTES_ARRAY[this.note] + " " + this.y, this.x + 4, this.y + FONT_SIZE + 2);
 
 			if (this.isSingingTime()) {
 				this.sing = true;
@@ -47,17 +47,18 @@ function VoiceNote(noteData, xToSing, challengeTotalTime)
 
     this.getYAxis = function()
     {
-        return this.note * SINGLE_NOTE_BAR_HEIGHT; //TODO: use octave
+        let secondOctaveStarter = SINGLE_NOTE_BAR_HEIGHT * MUSIC_NOTES_ARRAY.length;
+
+        if (this.octaveIndex === 1) {
+            return this.note * SINGLE_NOTE_BAR_HEIGHT;
+        }
+
+    	return secondOctaveStarter + this.note * SINGLE_NOTE_BAR_HEIGHT;
     };
 
 	this.getNoteWidth = function()
 	{
 		let diff = this.end - this.start;
-        console.log("########## Note width ##########");
-        console.log("start: " + this.start);
-        console.log("end: " + this.end);
-        console.log("width: " + parseInt(diff / ITERATION_MILISECONDS));
-        console.log("");
 		return parseInt(diff / ITERATION_MILISECONDS);
 	};
 
@@ -84,6 +85,7 @@ function VoiceNote(noteData, xToSing, challengeTotalTime)
     this.noteText = noteData[SHEET_INDEX_NOTE];
     this.note = this.getNote();
     this.octave = noteData[SHEET_INDEX_OCTAVE];
+    this.octaveIndex = octaveIndex;
     this.start = noteData[SHEET_INDEX_START];
     this.end = noteData[SHEET_INDEX_END];
     this.challengeTotalTime = challengeTotalTime;
