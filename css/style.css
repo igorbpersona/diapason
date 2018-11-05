@@ -13,10 +13,23 @@ h1 {
 	font-weight: 700;
 	text-align: center;
 	color: #60594d;
+	margin-bottom: 4px;
+}
+
+p {
+	text-align: center;
+	margin: 2px;
 }
 
 p#output {
-	text-align: center;
+	font-size: 14px;
+	text-align: left;
+	margin-left: 10px;
+}
+
+p#challenge {
+	font-size: 16px;
+	color: #8b635c;
 }
 
 .p5Canvas {

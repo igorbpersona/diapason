@@ -13,9 +13,10 @@ function Diapason(challengeId, smoothnessLevel)
         this.fft = new p5.FFT();
         this.fft.setInput(this.lowPass);
 
+        this.inputAmplitude = new p5.Amplitude();
+        this.inputAmplitude.setInput(this.lowPass);
 
         this.sheetManager = new MusicSheetManager(challengeId, SINGING_LINE_X);
-        this.sheetManager.loadChallenge();
 
         //set up notes bar
         this.notesBar = new NotesBar(
@@ -43,7 +44,7 @@ function Diapason(challengeId, smoothnessLevel)
         );
     };
 
-    this.iterate = function(elapsedTime)
+    this.iterate = function()
     {
         // array of float values from -1 to 1
         let timeDomain = this.fft.waveform(1024, 'float32'); //computes amplitude values along the time domain. The array indices correspond to samples across a brief moment in time. Each value represents amplitude of the waveform at that sample of time.
@@ -58,12 +59,16 @@ function Diapason(challengeId, smoothnessLevel)
         }
 
         this.singingLine.draw();
-        let keepGoing = this.sheetManager.draw(elapsedTime);
+        let keepGoing = this.sheetManager.draw();
         if (!keepGoing) {
             return false;
         }
         this.notesBar.draw(height);
-        this.voiceDot.draw(this.currFreq);
+        this.voiceDot.draw(
+            this.currFreq,
+            this.sheetManager.getOctaves(),
+            this.inputAmplitude.getLevel()
+        );
         this.voiceDot.drawVoiceHistory(this.singingLine.x);
 
         this.iteration++;
@@ -86,6 +91,7 @@ function Diapason(challengeId, smoothnessLevel)
     this.mic = null;
     this.fft = null;
     this.lowPass = null;
+    this.inputAmplitude = null;
 
     this.freqArray = [];
     this.currFreq = 0;

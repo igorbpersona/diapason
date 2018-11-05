@@ -1,6 +1,6 @@
 function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 {
-	this.draw = function(elapsedTime)
+	this.draw = function()
 	{
 		if (this.x < width) {
 			//if note passed entirely the canvas
@@ -15,13 +15,9 @@ function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 			fill("#FFFFFF");
 			noStroke();
 			textSize(FONT_SIZE);
-			text(MUSIC_NOTES_ARRAY[this.note] + " " + this.y, this.x + 4, this.y + FONT_SIZE + 2);
+			text(MUSIC_NOTES_ARRAY[this.note] + this.octave, this.x + 4, this.y + FONT_SIZE + 2);
 
-			if (this.isSingingTime()) {
-				this.sing = true;
-				console.log(this.noteText + " " + elapsedTime);
-			}
-			
+			this.sing = this.isSingingTime();
 		}
 
 		//updates note position
@@ -47,13 +43,7 @@ function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 
     this.getYAxis = function()
     {
-        let secondOctaveStarter = SINGLE_NOTE_BAR_HEIGHT * MUSIC_NOTES_ARRAY.length;
-
-        if (this.octaveIndex === 1) {
-            return this.note * SINGLE_NOTE_BAR_HEIGHT;
-        }
-
-    	return secondOctaveStarter + this.note * SINGLE_NOTE_BAR_HEIGHT;
+    	return getNoteYPostion(this.note, this.octaveIndex);
     };
 
 	this.getNoteWidth = function()

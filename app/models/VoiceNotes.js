@@ -4,7 +4,7 @@ function VoiceNotes(xToSing, sheet, octaves)
 		let notes = [];
 		for (let i = 0; i < this.sheet.length; i++) {
 			let octaveIndex = 0;
-			if (this.sheet[i][SHEET_INDEX_OCTAVE] === octaves[1]) {
+			if (this.sheet[i][SHEET_INDEX_OCTAVE] === this.octaves[1]) {
                 octaveIndex = 1;
 			}
 
@@ -19,11 +19,11 @@ function VoiceNotes(xToSing, sheet, octaves)
 	};
 
 
-	this.draw = function(elapsedTime)
+	this.draw = function()
 	{
 		for (let i = 0; i < this.notes.length; i++) {
 			//draw note
-			this.notes[i].draw(elapsedTime);
+			this.notes[i].draw();
 		}
 
 		//check if some note can be removed from array
@@ -38,6 +38,6 @@ function VoiceNotes(xToSing, sheet, octaves)
 
 	this.xToSing = xToSing;
     this.sheet = sheet;
+    this.octaves = octaves;
     this.notes = this.loadNotes(); //array of notes
-	this.octaves = octaves;
 }

@@ -11,11 +11,61 @@ function VoiceDot(x, y, r, color, maxPySize)
 	this.hittingNote = false; //flag that tells if dot is hitting a note
 
 	//Draws the voiceDot in the canvas according to the microphone fft spectrum passed
-	this.draw = function(freq)
+	this.draw = function(freq, octaves, volume)
 	{
-		//map the frequency to a position on the y axis
-		let approximation = this.getNoteApproximation(freq);
-		this.y = map(freq, 1, 1000, height, -10);
+		this.hittingNote = false;
+		this.y = height;
+		if (volume > 0.15) {
+            //map the frequency to a position on the y axis
+            let approximation = this.getNoteApproximation(freq);
+
+            let note1 = approximation[APPROXIMATION_NOTE1_INDEX];
+            let octave1 = approximation[APPROXIMATION_OCTAVE1_INDEX];
+            let note2 = approximation[APPROXIMATION_NOTE2_INDEX];
+            let octave2 = approximation[APPROXIMATION_OCTAVE2_INDEX];
+
+            let freq1 = FREQUENCY_NOTES_MAP[note1][octave1];
+            let freq2 = FREQUENCY_NOTES_MAP[note2][octave2];
+
+            let octaveIndex1 = 0;
+            let octaveIndex2 = 0;
+            if (octave1 === octaves[1]) {
+                octaveIndex1 = 1;
+            }
+            if (octave2 === octaves[1]) {
+                octaveIndex2 = 1;
+            }
+
+            let positionNote1 = getNoteYPostion(note1, octaveIndex1);
+            let positionNote2 = getNoteYPostion(note2, octaveIndex2);
+
+            console.log(freq);
+            console.log(freq + " " + freq2 + " " + freq1 + " " + positionNote2 + " " + positionNote1);
+            this.y = map(freq, freq2, freq1, positionNote2, positionNote1);
+            if (positionNote1 === positionNote2) {
+            	this.y = positionNote1;
+			}
+
+            let topVariation1 = positionNote1 - ACCEPTABLE_VARIATION;
+            let bottomVariation1 = positionNote1 + ACCEPTABLE_VARIATION;
+            let topVariation2 = positionNote2 - ACCEPTABLE_VARIATION;
+            let bottomVariation2 = positionNote2 + ACCEPTABLE_VARIATION;
+
+            console.log("y: " + this.y);
+            console.log("top: " + topVariation1 + " | " + topVariation2);
+            console.log("bottom: " + bottomVariation1 + " | " + bottomVariation2);
+            if (((this.y <= bottomVariation1) && (this.y >= topVariation1)) ||
+                ((this.y <= bottomVariation2) && (this.y >= topVariation2))
+			) {
+				this.hittingNote = true;
+			}
+			console.log(this.hittingNote);
+            console.log();
+
+
+            //adjust dot to be centered
+            this.y += (SINGLE_NOTE_BAR_HEIGHT/2)
+        }
 
 		//change dot color
 		if (this.hittingNote) {
@@ -25,7 +75,6 @@ function VoiceDot(x, y, r, color, maxPySize)
 		}
 
 		//draw dot
-		//console.log("Will draw a ellipse with values [" + this.x + ", " + this.y + ", " + this.r + "]");
 		stroke(255);
 		fill(this.color);
 		ellipse(this.x, this.y, this.r);
@@ -48,34 +97,47 @@ function VoiceDot(x, y, r, color, maxPySize)
 		endShape();
 	};
 
+    //returns the closest notes to the frequency passed
 	this.getNoteApproximation = function(freq)
 	{
 		let octave = 0;
-		for (let i = 0; i < FREQUENCY_NOTES_MAP[C].length; i++) {
-            if (freq > FREQUENCY_NOTES_MAP[C][i]) {
+		for (octave; octave < FREQUENCY_NOTES_MAP[C].length; octave++) {
+            if (freq > FREQUENCY_NOTES_MAP[C][octave]) {
                 octave++;
-            } else if (freq < FREQUENCY_NOTES_MAP[C][i]) {
-            	if (i !== 0) {
+            } else if (freq < FREQUENCY_NOTES_MAP[C][octave]) {
+            	if (octave !== 0) {
                     octave--;
             		break;
 				}
+
+				console.log("ERROR: SOUND IS TO LOW");
+            	break;
+
 			} else {
-            	return [C, i];
+            	//Precisely on tune
+            	return [C, octave, C, octave];
 			}
         }
 
-        for (let i = MUSIC_NOTES_ARRAY.length - 2; i >= 0; i--) {
-			if (freq <= FREQUENCY_NOTES_MAP[i][octave]) {
-				//returns a note, an octave and the difference between the frequency and the closest note
-                return [i, octave];
+        let note = C_SUS;
+        for (note; note >= B; note--) {
+			if (freq < FREQUENCY_NOTES_MAP[note][octave]) {
+                return [note, octave, note + 1, octave];
+            } else if (freq === FREQUENCY_NOTES_MAP[note][octave]) {
+                //Precisely on tune
+                return [note, octave, note, octave];
             }
         }
 
-        return [C, octave + 1];
+        if ((note === (B - 1)) && (octave >= FREQUENCY_NOTES_MAP[B].length)) {
+            console.log("ERROR: SOUND IS TO HIGH");
+		}
+
+        return [C, octave + 1, B, octave];
 	};
 
 	//Compare the note of the voiceDot with the note given
-	/*this.hittingNote = function(note)
+	this.hittingNote = function(note)
 	{
 		//TODO: compare notes, maybe find range to smooth the comparation
 		//TODO: for example, if note given is 440Hz, return true for 437~443Hz Dot
@@ -84,6 +146,6 @@ function VoiceDot(x, y, r, color, maxPySize)
 		}
 
 		return false;
-	}*/
+	}
 
 }

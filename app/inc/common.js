@@ -39,8 +39,11 @@ const SINGING_LINE_X = 360;
 const SINGING_LINE_Y = 0;
 const SINGING_LINE_W = 2;
 
-/* How many values will be used to find the mode */
-const SMOOTHNESS_LEVEL = 5;
+// How many values will be used to find the mode
+const SMOOTHNESS_LEVEL = 4;
+
+// Height variation in pixels that is acceptable for the note singed to be considered in tune
+const ACCEPTABLE_VARIATION = 2;
 
 
 // Colors for pitches order by MUSIC_NOTES_ARRAY
@@ -73,6 +76,12 @@ const SHEET_INDEX_END = 1;
 const SHEET_INDEX_NOTE = 2;
 const SHEET_INDEX_OCTAVE = 3;
 
+//indexes for approximation of frequencies voiceDot
+const APPROXIMATION_NOTE1_INDEX = 0;
+const APPROXIMATION_OCTAVE1_INDEX = 1;
+const APPROXIMATION_NOTE2_INDEX = 2;
+const APPROXIMATION_OCTAVE2_INDEX = 3;
+
 //voice dot
 const COLOR_HITTING_NOTE = "#F0F010";
 const COLOR_MISSING_NOTE = "#202020";
@@ -100,3 +109,15 @@ const FREQUENCY_NOTES_MAP = [
   [17.32, 34.65, 69.30, 138.59, 277.18, 554.37, 1108.73, 2217.46, 4434.92], // C#
   [16.35, 32.70, 65.41, 130.81, 261.63, 523.25, 1046.50, 2093.00, 4186.01], // C
 ];
+
+
+function getNoteYPostion(note, octaveIndex)
+{
+    let secondOctaveStarter = SINGLE_NOTE_BAR_HEIGHT * MUSIC_NOTES_ARRAY.length;
+
+    if (octaveIndex === 1) {
+        return note * SINGLE_NOTE_BAR_HEIGHT;
+    }
+
+    return secondOctaveStarter + note * SINGLE_NOTE_BAR_HEIGHT;
+}

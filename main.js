@@ -61,7 +61,7 @@ function draw()
 
     }
 
-    keepChallenge = diapason.iterate(totalTimeElapsed);
+    keepChallenge = diapason.iterate();
 
     if (!keepChallenge) {
 		window.location.href = "/resume.html?challenge_id=" + diapason.challenge + "&points=" + diapason.points;
