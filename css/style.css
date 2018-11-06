@@ -10,15 +10,23 @@ body {
 }
 
 h1 {
-	font-weight: 700;
 	text-align: center;
-	color: #60594d;
 	margin-bottom: 4px;
+}
+
+h1 a {
+	font-weight: 700;
+	color: #60594d;
 }
 
 p {
 	text-align: center;
 	margin: 2px;
+	color: #8b635c;
+}
+
+a {
+	text-decoration: none;
 }
 
 p#output {
@@ -46,7 +54,7 @@ p#challenge {
 	color: #FFF;
 	position: fixed;
 	top: 20px;
-	left: 20px;
+	left: 10px;
 	cursor: pointer;
 }
 
@@ -69,10 +77,10 @@ nav ul {
 .menu-item p {
 	margin: 0;
 }
-ul#diapason-initial-menu li:nth-child(odd) {
+ul#diapason-initial-menu > li:nth-child(odd) {
 	background-color: #ddd78d;
 }
-ul#diapason-initial-menu li:nth-child(even) {
+ul#diapason-initial-menu > li:nth-child(even) {
 	background-color: #dcbf85;
 }
 #li-about {
@@ -82,10 +90,11 @@ ul#diapason-initial-menu li:nth-child(even) {
 	display: none;
 }
 .menu-label {
-	font-size: 34px;
+	font-size: 24px;
 	color: #FFF;
 	font-weight: bold;
 }
+
 footer {
 	position: relative;
 	width: 100%;
@@ -98,7 +107,22 @@ footer a{
 	text-align: center;
 }
 
+ul.ul-options {
+	list-style-type: circle;
+	margin: 0;
+	padding: 0;
+}
+
 ul.ul-options li {
 	display: inline-block;
+	margin-left: 22px;
+}
+
+ul.ul-options li a {
+	color: #8b635c;
 	text-decoration: none;
+}
+
+ul.ul-options li a:hover {
+	color: #60594d;
 }
