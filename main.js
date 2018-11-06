@@ -72,11 +72,14 @@ function toggleLoop()
 {
     if (isLooping) {
         noLoop();
+        diapason.pauseDiapason();
         isLooping = false;
         document.getElementById("btn-toggle-loop").innerHTML = "Play";
+        console.log("TIME: " + totalTimeElapsed);
 
     } else {
         loop();
+        diapason.playDiapason();
         isLooping = true;
         document.getElementById("btn-toggle-loop").innerHTML = "Pause";
     }

@@ -83,6 +83,16 @@ function Diapason(challengeId, smoothnessLevel)
         return SINGLE_NOTE_BAR_HEIGHT * MUSIC_NOTES_ARRAY.length * 2;
     };
 
+    this.playDiapason = function()
+    {
+        this.sheetManager.playSong();
+    };
+
+    this.pauseDiapason = function()
+    {
+        this.sheetManager.pauseSong();
+    };
+
     this.challenge = challengeId; //Challenge id
     this.points = 0; //points earned in challenge
     this.iteration = 0;

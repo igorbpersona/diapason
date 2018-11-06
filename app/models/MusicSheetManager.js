@@ -4,6 +4,7 @@ function MusicSheetManager(challengeId, xToSing)
     this.loadChallenge = function(challengeId)
     {
         let text = "";
+        let song = null;
         challengeId = parseInt(challengeId);
 
         switch (challengeId) {
@@ -13,6 +14,7 @@ function MusicSheetManager(challengeId, xToSing)
                 text = "{" +
                     "  \"name\": \"Mariana\"," +
                     "  \"type\": \"scale\"," +
+                    "  \"author\": \"\"," +
                     "  \"sheet\": [" +
                     "    [3000, 5000, \"C\", 3]," +
                     "    [5001, 9000, \"D\", 3]," +
@@ -41,32 +43,67 @@ function MusicSheetManager(challengeId, xToSing)
                 text = "{" +
                     "  \"name\": \"EstamosErrados\"," +
                     "  \"type\": \"scale\"," +
+                    "  \"author\": \"\"," +
                     "  \"sheet\": [" +
                     "    [3000, 4000, \"E\", 3]," +
                     "    [4010, 5000, \"F#\", 3]," +
                     "    [5500, 6000, \"G\", 3]," +
                     "    [6500, 7000, \"A\", 3]," +
                     "    [7500, 8000, \"B\", 3]," +
-                    "    [8500, 9000, \"C\", 4]," +
-                    "    [9500, 10000, \"D\", 4]," +
-                    "    [10500, 11000, \"C\", 4]," +
+                    "    [8500, 9000, \"C\", 2]," +
+                    "    [9500, 10000, \"D\", 2]," +
+                    "    [10500, 11000, \"C\", 2]," +
                     "    [11500, 12000, \"B\", 3]," +
                     "    [12500, 13000, \"A\", 3]," +
-                    "    [13500, 14000, \"G\", 4]," +
-                    "    [14500, 15000, \"F#\", 4]," +
-                    "    [15500, 16000, \"E\", 4]," +
-                    "    [16500, 17000, \"A\", 4]," +
-                    "    [17500, 18000, \"E\", 4]," +
-                    "    [18500, 19000, \"E\", 4]," +
+                    "    [13500, 14000, \"G\", 2]," +
+                    "    [14500, 15000, \"F#\", 2]," +
+                    "    [15500, 16000, \"E\", 2]," +
+                    "    [16500, 17000, \"A\", 2]," +
+                    "    [17500, 18000, \"E\", 2]," +
+                    "    [18500, 19000, \"E\", 2]," +
                     "    [19500, 20500, \"A\", 3]" +
                     "  ]" +
                     "}";
                 break;
 
+            case (MUSIC_MAN_IN_THE_BOX_ALICE_IN_CHAINS):
+                document.getElementById("challenge").innerHTML = "Man in the box - Alice in Chains";
+                console.log("MAN IN THE BOX - ALICE IN CHAINS");
+
+                text = "{" +
+                    "  \"name\": \"Man in the Box\"," +
+                    "  \"type\": \"music\"," +
+                    "  \"author\": \"Alice in Chains\"," +
+                    "  \"sheet\": [" +
+                    //Intro
+                    "    [24650, 25740, \"B\", 2]," +
+                    "    [25900, 27000, \"D\", 3]," +
+                    "    [27050, 28000, \"E\", 3]," +
+                    "    [28050, 29000, \"A\", 2]," +
+                    // "    [21100, 21600, \"B\", 2]," +
+                    // "    [21700, 22300, \"G\", 2]," +
+                    // "    [22400, 22900, \"A\", 2]," +
+                    // "    [23000, 23500, \"G\", 2]," +
+                    // "    [23600, 24000, \"E\", 3]," +
+                    // "    [29500, 29950, \"B\", 2]," +
+                    // "    [30000, 30210, \"D\", 3]," +
+                    // "    [30220, 30500, \"E\", 3]," +
+                    // "    [30600, 31000, \"A\", 2]," +
+                    // "    [31100, 31600, \"B\", 2]," +
+                    // "    [31700, 32300, \"G\", 2]," +
+                    // "    [32400, 32900, \"A\", 2]," +
+                    "    [33000, 33500, \"G\", 2]," +
+                    "    [33600, 34000, \"E\", 2]" +
+                    //Verse
+                    "  ]" +
+                    "}";
+
+                song = loadSound('../../media/sounds/songs/ManInTheBox_AliceInChains.mp3');
+                break;
             default:
                 alert("ERROR: ESCALA NÃO ENCONTRADA");
                 console.log("ERROR: ESCALA NÃO ENCONTRADA");
-                return null;
+                return song;
         }
 
 
@@ -74,10 +111,11 @@ function MusicSheetManager(challengeId, xToSing)
 
         this.name = jsonSheet.name;
         this.type = jsonSheet.type;
+        this.author = jsonSheet.author;
         this.sheet = jsonSheet.sheet;
         this.octaves = this.populateOctaves();
 
-        return challengeId;
+        return song;
     };
 
     this.draw = function()
@@ -107,10 +145,21 @@ function MusicSheetManager(challengeId, xToSing)
         return this.octaves;
     };
 
+    this.pauseSong = function()
+    {
+        this.song.pause();
+    };
+
+    this.playSong = function()
+    {
+        this.song.play();
+    };
+
     this.name = null;
     this.type = null;
+    this.author = null;
     this.sheet = null;
     this.octaves = null;
-    this.challengeId = this.loadChallenge(challengeId);
+    this.song = this.loadChallenge(challengeId);
     this.voiceNotes = new VoiceNotes(xToSing, this.sheet, this.octaves);
 }
