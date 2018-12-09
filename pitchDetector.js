@@ -41,7 +41,10 @@ function autoCorrelate(timeDomainBuffer) {
     timeDomainBuffer = centerClip(timeDomainBuffer);
   }
 
-  var autoCorrBuffer = [];
+    console.log("samples: " + nSamples);
+
+
+    var autoCorrBuffer = [];
   for (var lag = 0; lag < nSamples; lag++){
     var sum = 0; 
     for (var index = 0; index < nSamples; index++){
@@ -167,4 +170,43 @@ function mode(numbers) {
 function smoothFrequency(freqArray)
 {
   return mode(freqArray);
+}
+
+//returns the closest notes to the frequency passed
+function getNoteApproximation(freq)
+{
+    let octave = 0;
+    for (octave; octave < FREQUENCY_NOTES_MAP[C].length; octave++) {
+        if (freq > FREQUENCY_NOTES_MAP[C][octave]) {
+            octave++;
+        } else if (freq < FREQUENCY_NOTES_MAP[C][octave]) {
+            if (octave !== 0) {
+                octave--;
+                break;
+            }
+
+            console.log("ERROR: SOUND IS TO LOW");
+            break;
+
+        } else {
+            //Precisely on tune
+            return [C, octave, C, octave];
+        }
+    }
+
+    let note = C_SUS;
+    for (note; note >= B; note--) {
+        if (freq < FREQUENCY_NOTES_MAP[note][octave]) {
+            return [note, octave, note + 1, octave];
+        } else if (freq === FREQUENCY_NOTES_MAP[note][octave]) {
+            //Precisely on tune
+            return [note, octave, note, octave];
+        }
+    }
+
+    if ((note === (B - 1)) && (octave >= FREQUENCY_NOTES_MAP[B].length)) {
+        console.log("ERROR: SOUND IS TO HIGH");
+    }
+
+    return [C, octave + 1, B, octave];
 }

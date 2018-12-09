@@ -18,6 +18,9 @@ function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 			text(MUSIC_NOTES_ARRAY[this.note] + this.octave, this.x + 4, this.y + FONT_SIZE + 2);
 
 			this.sing = this.isSingingTime();
+			if (this.sing) {
+                //console.log("time elapsed " + this.noteText + ": " + totalTimeElapsed);
+			}
 		}
 
 		//updates note position
@@ -37,8 +40,12 @@ function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 
 	this.getStarterXAxis = function()
 	{
+		console.log(this.noteText);
+		console.log(this.challengeTotalTime);
+		console.log(ITERATION_MILISECONDS);
 		let conversion = (this.challengeTotalTime / ITERATION_MILISECONDS);
-		return map(this.start, 0, this.challengeTotalTime, this.xToSing, conversion);
+        console.log(conversion);
+        return map(this.start, 0, this.challengeTotalTime, this.xToSing, conversion);
 	};
 
     this.getYAxis = function()
@@ -49,7 +56,13 @@ function VoiceNote(noteData, xToSing, challengeTotalTime, octaveIndex)
 	this.getNoteWidth = function()
 	{
 		let diff = this.end - this.start;
-		return parseInt(diff / ITERATION_MILISECONDS);
+        console.log(this.start);
+        console.log(this.end);
+		console.log(diff);
+		console.log(diff / ITERATION_MILISECONDS);
+		console.log(parseInt(diff / ITERATION_MILISECONDS));
+		console.log("");
+		return (diff / ITERATION_MILISECONDS);
 	};
 
 	this.getNote = function()

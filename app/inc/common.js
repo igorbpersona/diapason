@@ -69,7 +69,7 @@ const MUSIC_MAN_IN_THE_BOX_ALICE_IN_CHAINS = 3;
 const FONT_SIZE = 13;
 
 //aproximation of number of miliseconds passed in an iteration of the Diapason
-const ITERATION_MILISECONDS = 17;
+const ITERATION_MILISECONDS = 17.5;//16.8;
 
 //indexes for notes sheet arrays
 const SHEET_INDEX_START = 0;
@@ -87,7 +87,7 @@ const APPROXIMATION_OCTAVE2_INDEX = 3;
 const COLOR_HITTING_NOTE = "#F0F010";
 const COLOR_MISSING_NOTE = "#202020";
 
-//Matrix octaves frequency x note
+//Matrix frequencies => octave x note
 /*
 *  octave:     |  0    | 1    | 2    | 3    4  ....
 *  note:     B |  Fb0  | FB1  |      |
@@ -110,6 +110,8 @@ const FREQUENCY_NOTES_MAP = [
   [17.32, 34.65, 69.30, 138.59, 277.18, 554.37, 1108.73, 2217.46, 4434.92], // C#
   [16.35, 32.70, 65.41, 130.81, 261.63, 523.25, 1046.50, 2093.00, 4186.01], // C
 ];
+
+const MINIMUM_VOLUME_TO_CONSIDER = 0.15;
 
 
 function getNoteYPostion(note, octaveIndex)

@@ -11,10 +11,10 @@ function Diapason(challengeId, smoothnessLevel)
         this.mic.connect(this.lowPass);
 
         this.fft = new p5.FFT();
-        this.fft.setInput(this.lowPass);
+        this.fft.setInput(this.mic);
 
         this.inputAmplitude = new p5.Amplitude();
-        this.inputAmplitude.setInput(this.lowPass);
+        this.inputAmplitude.setInput(this.mic);
 
         this.sheetManager = new MusicSheetManager(challengeId, SINGING_LINE_X);
 
@@ -93,11 +93,14 @@ function Diapason(challengeId, smoothnessLevel)
         this.sheetManager.pauseSong();
     };
 
+
+    //***** Diapason intern config
     this.challenge = challengeId; //Challenge id
     this.points = 0; //points earned in challenge
     this.iteration = 0;
     this.smoothnessLevel = smoothnessLevel;
 
+    //***** Audio related properties
     this.mic = null;
     this.fft = null;
     this.lowPass = null;
@@ -106,15 +109,11 @@ function Diapason(challengeId, smoothnessLevel)
     this.freqArray = [];
     this.currFreq = 0;
 
-    //Instantiate singing line
+    //***** Visual elements models
     this.singingLine = null;
-
-    //Instantiate voice dot at the bottom
     this.voiceDot = null;
-
-    //Instantiate notes bar on the left of the screen
     this.notesBar = null;
 
-    //Instantiate sheet manager
+    //***** Sheet Manager
     this.sheetManager = null;
 }

@@ -15,9 +15,9 @@ function VoiceDot(x, y, r, color, maxPySize)
 	{
 		this.hittingNote = false;
 		this.y = height;
-		if (volume > 0.15) {
+		if (volume > MINIMUM_VOLUME_TO_CONSIDER) {
             //map the frequency to a position on the y axis
-            let approximation = this.getNoteApproximation(freq);
+            let approximation = getNoteApproximation(freq);
 
             let note1 = approximation[APPROXIMATION_NOTE1_INDEX];
             let octave1 = approximation[APPROXIMATION_OCTAVE1_INDEX];
@@ -97,51 +97,13 @@ function VoiceDot(x, y, r, color, maxPySize)
 		endShape();
 	};
 
-    //returns the closest notes to the frequency passed
-	this.getNoteApproximation = function(freq)
-	{
-		let octave = 0;
-		for (octave; octave < FREQUENCY_NOTES_MAP[C].length; octave++) {
-            if (freq > FREQUENCY_NOTES_MAP[C][octave]) {
-                octave++;
-            } else if (freq < FREQUENCY_NOTES_MAP[C][octave]) {
-            	if (octave !== 0) {
-                    octave--;
-            		break;
-				}
-
-				console.log("ERROR: SOUND IS TO LOW");
-            	break;
-
-			} else {
-            	//Precisely on tune
-            	return [C, octave, C, octave];
-			}
-        }
-
-        let note = C_SUS;
-        for (note; note >= B; note--) {
-			if (freq < FREQUENCY_NOTES_MAP[note][octave]) {
-                return [note, octave, note + 1, octave];
-            } else if (freq === FREQUENCY_NOTES_MAP[note][octave]) {
-                //Precisely on tune
-                return [note, octave, note, octave];
-            }
-        }
-
-        if ((note === (B - 1)) && (octave >= FREQUENCY_NOTES_MAP[B].length)) {
-            console.log("ERROR: SOUND IS TO HIGH");
-		}
-
-        return [C, octave + 1, B, octave];
-	};
 
 	//Compare the note of the voiceDot with the note given
 	this.hittingNote = function(note)
 	{
 		//TODO: compare notes, maybe find range to smooth the comparation
 		//TODO: for example, if note given is 440Hz, return true for 437~443Hz Dot
-		if (this.y == 0) {
+		if (this.y === 0) {
 			return true;
 		}
 
